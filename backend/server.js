@@ -24,6 +24,8 @@ app.use('/api/comment', require('./routes/CommentRoutes'))
 const port = process.env.PORT || 6666;
 app.listen(port, () => console.log(`SERVER RUNNING ON PORT ${port}`));
 
+module.exports = app;
+
 
 
 
