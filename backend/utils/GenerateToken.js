@@ -14,7 +14,7 @@ const generateToken = (user, res) => {
 
     res.cookie('jwt', token, {
         httpOnly: true,
-        sameSite: 'lax',
+        sameSite: 'none',
         secure: true, // TRUE IN PROD
         maxAge: 1000 * 60 * 60 // 1 HOUR
     });
