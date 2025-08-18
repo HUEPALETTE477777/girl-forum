@@ -9,10 +9,21 @@ const DB_CONNECTION = require('./config/mDB');
 DB_CONNECTION();
 
 const app = express();
+
+const allowedOrigins = [
+    'https://girls-only.vercel.app',
+];
+
+
 app.use(cors({
-    credentials: true,
-    origin: process.env.BACKEND_ORIGIN
+    origin: function (origin, callback) {
+        if (allowedOrigins.includes(origin)) {
+            callback(null, true);
+        }
+    },
+    credentials: true 
 }));
+
 app.use(cookieParser());
 app.use(express.json());
 
