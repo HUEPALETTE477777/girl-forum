@@ -57,10 +57,6 @@ const Posts = () => {
         setShowModal(false);
     };
 
-    useEffect(() => {
-        console.log(showModal);
-    }, [])
-
     return (
         <div className="min-h-screen bg-gray-100 p-4">
             <h1 className="text-4xl text-center p-6">POSTS</h1>

@@ -72,8 +72,6 @@ const PostDetail = () => {
         commentSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     };
 
-    console.log(post);
-
     if (loading) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-gray-900 text-white">
@@ -81,6 +79,8 @@ const PostDetail = () => {
             </div>
         );
     }
+
+    console.log(allCommentsUnderPost);
 
     return (
         <div className="min-h-screen bg-gray-900 text-white">

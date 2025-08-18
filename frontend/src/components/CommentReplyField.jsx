@@ -11,8 +11,7 @@ import { useParams } from 'react-router-dom';
 
 */
 
-const CommentReplyField = ({ comment_id }) => {
-    const [hasClickedReplyButton, setHasClickedReplyButton] = useState(false);
+const CommentReplyField = ({ comment_id, hasClickedReplyButton, hasClickedEditButton }) => {
     const [selectedFile, setSelectedFile] = useState(null);
     const [replyText, setReplyText] = useState('');
     const [previewUrl, setPreviewUrl] = useState(null);
@@ -34,10 +33,6 @@ const CommentReplyField = ({ comment_id }) => {
         }
     };
 
-    const handleReplyButtonClick = () => {
-        setHasClickedReplyButton(prev => !prev);
-    }
-
     const submitHandler = async (evt) => {
         evt.preventDefault();
 
@@ -55,7 +50,6 @@ const CommentReplyField = ({ comment_id }) => {
             await fetchAllCommentsUnderPost(id); // COMPLETELY GAVE UP ON OPTIMIZATION
 
             setReplyText('');
-            setHasClickedReplyButton(false);
             setUploadProgress(0);
 
             if (fileInputRef.current) {
@@ -68,20 +62,11 @@ const CommentReplyField = ({ comment_id }) => {
     }
 
     return (
-        <div>
-            <button
-                className="cursor-pointer bg-gray-800 px-3 py-2"
-                onClick={handleReplyButtonClick}
-            >
-                {
-                    hasClickedReplyButton ? "COLLAPSE" : "REPLY"
-                }
-            </button>
-
-            {hasClickedReplyButton && (
-                <form onSubmit={submitHandler} className="flex flex-col space-y-3 mt-4">
+        <>
+            {hasClickedReplyButton && !hasClickedEditButton && (
+                <form onSubmit={submitHandler} className="flex flex-col space-y-3 mt-4 p-4">
                     <textarea
-                        className="bg-gray-500 border border-white p-4 w-full focus:outline-none"
+                        className="bg-gray-500 border border-white focus:outline-none"
                         placeholder="BEGIN REPLYING HERE!"
                         value={replyText}
                         onChange={(e) => setReplyText(e.target.value)}
@@ -117,11 +102,8 @@ const CommentReplyField = ({ comment_id }) => {
                     </button>
                 </form>
             )}
-
-
-
-        </div>
-    );
+        </>
+    )
 }
 
 

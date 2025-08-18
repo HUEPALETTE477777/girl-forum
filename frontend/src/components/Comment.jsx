@@ -12,6 +12,7 @@ import { useParams } from 'react-router-dom'
 const Comment = ({ c }) => {
     const { editComment, fetchAllCommentsUnderPost } = useComment();
     const { user } = useAuth();
+    const [hasClickedReplyButton, setHasClickedReplyButton] = useState(false);
     const [hasClickedEditButton, setHasClickedEditButton] = useState(false);
 
     const [editedText, setEditedText] = useState(c.comment);
@@ -37,6 +38,10 @@ const Comment = ({ c }) => {
         setHasClickedEditButton(prev => !prev);
         setEditedText(c.comment);
         setPreviewUrl(c?.image);
+    }
+
+    const handleReplyButtonClick = () => {
+        setHasClickedReplyButton(prev => !prev);
     }
 
     const submitHandler = async (evt) => {
@@ -80,23 +85,37 @@ const Comment = ({ c }) => {
                     <h2 className="text-lg">USER: {c.commenter.username}</h2>
                     <p>USER ID: {c.commenter.user_id}</p>
                 </div>
-                <CommentReplyField comment_id={c.comment_id} />
 
                 {
                     (user.user_id == c.commenter.user_id) && (
                         <>
                             <button
-                                className="bg-blue-500 cursor-pointer"
+                                className={`cursor-pointer ${hasClickedReplyButton ? 'bg-gray-800' : 'bg-blue-700'}`}
                                 onClick={handleEditButtonClick}
+                                disabled={hasClickedReplyButton}
                             >
                                 {
-                                    hasClickedEditButton ? "COLLAPSE" : "EDIT"
+                                    hasClickedEditButton ? "COLLAPSE" : "EDIT "
+                                }
+                                {
+                                    hasClickedReplyButton && ("BUTTON DISABLED")
                                 }
                             </button>
                         </>
                     )
                 }
-
+                <button
+                    className={`cursor-pointer ${hasClickedEditButton ? 'bg-gray-800' : 'bg-green-400'}`}
+                    onClick={handleReplyButtonClick}
+                    disabled={hasClickedEditButton}
+                >
+                    {
+                        hasClickedReplyButton ? "COLLAPSE" : "REPLY "
+                    }
+                    {
+                        hasClickedEditButton && ("BUTTON DISABLED")
+                    }
+                </button>
             </div>
 
             <form onSubmit={submitHandler}>
@@ -147,8 +166,9 @@ const Comment = ({ c }) => {
                         </>
                     )
                 }
-
             </form>
+
+            <CommentReplyField comment_id={c.comment_id} hasClickedReplyButton={hasClickedReplyButton} />
 
             <p className="text-sm">CREATED AT: {DateFormat(c.createdAt)}</p>
             <p className="text-sm mb-2">UPDATED AT: {DateFormat(c.updatedAt)}</p>

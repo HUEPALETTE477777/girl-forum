@@ -1,5 +1,6 @@
 const User = require('../models/UserSchema');
-const Post = require("../models/PostSchema")
+const Post = require("../models/PostSchema");
+const Comment = require("../models/CommentSchema");
 const bcrypt = require('bcrypt')
 
 const GENERATE_JWT_TOKEN = require('../utils/GenerateToken');
@@ -168,7 +169,7 @@ const patchUser = async (req, res) => {
             new: true,
         });
 
-        const updatedPost = await Post.updateMany(
+        const updatedPosts = await Post.updateMany(
             { 'author.user_id': req.user.user_id },
             {$set: {
                     "author.username": req.body.username,
@@ -177,13 +178,24 @@ const patchUser = async (req, res) => {
             },
         );
 
+        const updatedComments = await Comment.updateMany(
+            { 'commenter.user_id': req.user.user_id },
+            {$set: {
+                    "commenter.username": req.body.username,
+                    "commenter.avatar": updatedUser.avatar
+                }
+            },
+        );
+
+
         const token = GENERATE_JWT_TOKEN(updatedUser, res);
 
         res.status(200).json({
             message: "UPDATE SUCCESSFUL!",
             token: token,
             user: updatedUser,
-            postsUpdated: updatedPost,
+            postsUpdated: updatedPosts,
+            commentsUpdated: updatedComments,
         });
     } catch (err) {
         if (err.code == 11000) {
