@@ -86,7 +86,7 @@ const PostDetail = () => {
         <div className="min-h-screen bg-gray-900 text-white">
             <div className="flex flex-col items-center justify-center min-h-screen px-4">
                 <div className="bg-gray-700 p-6 w-full max-w-4xl border border-gray-600">
-                    <img src={post.image} className="w-full max-h-96 mb-4 border border-gray-600" />
+                    <img src={post.image} className="w-full mb-4 border border-gray-600" />
                     <h1 className="text-xl font-bold mb-2">{post.title}</h1>
                     <h2 className="mb-2">POST ID: {post.post_id}</h2>
 

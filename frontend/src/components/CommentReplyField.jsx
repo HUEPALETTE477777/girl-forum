@@ -64,7 +64,7 @@ const CommentReplyField = ({ comment_id, hasClickedReplyButton, hasClickedEditBu
     return (
         <>
             {hasClickedReplyButton && !hasClickedEditButton && (
-                <form onSubmit={submitHandler} className="flex flex-col space-y-3 mt-4 p-4">
+                <form onSubmit={submitHandler} className="flex flex-col space-y-3 mt-4 p-4 bg-gray-900">
                     <textarea
                         className="bg-gray-500 border border-white focus:outline-none"
                         placeholder="BEGIN REPLYING HERE!"

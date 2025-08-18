@@ -89,33 +89,36 @@ const Comment = ({ c }) => {
                 {
                     (user.user_id == c.commenter.user_id) && (
                         <>
-                            <button
-                                className={`cursor-pointer ${hasClickedReplyButton ? 'bg-gray-800' : 'bg-blue-700'}`}
-                                onClick={handleEditButtonClick}
-                                disabled={hasClickedReplyButton}
-                            >
-                                {
-                                    hasClickedEditButton ? "COLLAPSE" : "EDIT "
-                                }
-                                {
-                                    hasClickedReplyButton && ("BUTTON DISABLED")
-                                }
-                            </button>
+                            {
+                                !hasClickedReplyButton && (
+                                    <button
+                                        className={`cursor-pointer ${hasClickedReplyButton ? 'bg-gray-800' : 'bg-blue-700'}`}
+                                        onClick={handleEditButtonClick}
+                                        disabled={hasClickedReplyButton}
+                                    >
+                                        {
+                                            hasClickedEditButton ? "COLLAPSE" : "EDIT "
+                                        }
+                                    </button>
+                                )
+                            }
+
                         </>
                     )
                 }
-                <button
-                    className={`cursor-pointer ${hasClickedEditButton ? 'bg-gray-800' : 'bg-green-400'}`}
-                    onClick={handleReplyButtonClick}
-                    disabled={hasClickedEditButton}
-                >
-                    {
-                        hasClickedReplyButton ? "COLLAPSE" : "REPLY "
-                    }
-                    {
-                        hasClickedEditButton && ("BUTTON DISABLED")
-                    }
-                </button>
+                {
+                    !hasClickedEditButton && (
+                        <button
+                            className={`cursor-pointer ${hasClickedEditButton ? 'bg-gray-800' : 'bg-green-400'}`}
+                            onClick={handleReplyButtonClick}
+                            disabled={hasClickedEditButton}
+                        >
+                            {
+                                hasClickedReplyButton ? "COLLAPSE" : "REPLY "
+                            }
+                        </button>
+                    )
+                }
             </div>
 
             <form onSubmit={submitHandler}>
