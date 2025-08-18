@@ -1,0 +1,88 @@
+:root {
+  --black: #000;
+  --white: #fff;
+  --gray-2: #e5e7eb;
+  --gray-3: #d1d5db;
+}
+
+.tiptap > :first-child {
+  margin-top: 0;
+}
+
+.tiptap ul {
+  list-style-type: disc;
+  list-style-position: inside;
+}
+
+.tiptap ol {
+  list-style-type: decimal;
+  list-style-position: inside;
+}
+
+.tiptap li > p {
+  display: inline;
+  margin: 0;
+}
+
+
+
+.tiptap h1,
+.tiptap h2,
+.tiptap h3,
+.tiptap h4,
+.tiptap h5,
+.tiptap h6 {
+  line-height: 1.1;
+  margin-top: 2.5rem;
+  text-wrap: pretty;
+}
+
+.tiptap h1,
+.tiptap h2 {
+  margin-top: 3.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.tiptap h1 {
+  font-size: 1.4rem;
+}
+
+.tiptap h2 {
+  font-size: 1.2rem;
+}
+
+.tiptap h3 {
+  font-size: 1.1rem;
+}
+
+.tiptap h4,
+.tiptap h5,
+.tiptap h6 {
+  font-size: 1rem;
+}
+
+.tiptap pre {
+  background: var(--black);
+  color: var(--white);
+  margin: 1.5rem 0;
+  padding: 0.75rem 1rem;
+}
+
+.tiptap pre code {
+  background: none;
+  color: inherit;
+  font-size: 0.8rem;
+  padding: 0;
+}
+
+.tiptap blockquote {
+  border-left: 3px solid var(--gray-3);
+  margin: 1.5rem 0;
+  padding-left: 1rem;
+}
+
+.tiptap hr {
+  border: none;
+  border-top: 1px solid var(--gray-2);
+  margin: 2rem 0;
+}

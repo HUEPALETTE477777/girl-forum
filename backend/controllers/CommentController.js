@@ -1,0 +1,206 @@
+const Comment = require("../models/CommentSchema")
+const Post = require("../models/PostSchema")
+
+const CLOUDINARY_UPLOAD = require("../config/cloudinary")
+
+// GET /api/comment/
+const getAllCommentsForUser = async (req, res) => {
+    try {
+        const user = req.user;
+        if (!user) {
+            return res.status(401).json({ message: "IMMIGRANT YOU MUST BE LOGGED IN!" });
+        }
+
+        const allComments = await Comment.find({});
+
+        res.status(200).json({ comments: allComments })
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: err });
+    }
+}
+
+// POST /api/comment/post/:id
+const createCommentUnderPost = async (req, res) => {
+    try {
+        const postId = req.params.id;
+        const postObject = await Post.findOne({ post_id: postId })
+
+        let extractedImageURL;
+
+        if (req.file) {
+            const b64 = Buffer.from(req.file.buffer).toString("base64");
+            let dataURI = "data:" + req.file.mimetype + ";base64," + b64;
+            const cloudRes = await CLOUDINARY_UPLOAD(dataURI);
+            extractedImageURL = cloudRes?.url;
+        }
+
+        const payload = {
+            post: postObject._id,
+            commenter: { user_id: req.user.user_id, username: req.user.username, avatar: req.user.avatar },
+            image: extractedImageURL,
+            comment: req.body.comment,
+        }
+
+        const newComment = await new Comment(payload).save();
+
+        newComment.parentComment = newComment._id;
+        await newComment.save();
+
+        res.status(200).json({ message: "SUCCESSFULLY MADE COMMENT! ", comment: newComment })
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: err });
+    }
+}
+
+// POST /api/comment/:commentId/reply
+const createReplyToComment = async (req, res) => {
+    try {
+        const parentCommentId = req.params.commentId;
+
+        if (!parentCommentId) {
+            return res.status(404).json({ message: "COMMENT DOES NOT EXIST CUNT!" })
+        }
+
+        const parentComment = await Comment.findOne({ comment_id: Number(parentCommentId) })
+        const parentCommentOID = parentComment._id;
+
+        let extractedImageURL;
+
+        if (req.file) {
+            const b64 = Buffer.from(req.file.buffer).toString("base64");
+            let dataURI = "data:" + req.file.mimetype + ";base64," + b64;
+            const cloudRes = await CLOUDINARY_UPLOAD(dataURI);
+            extractedImageURL = cloudRes?.url;
+        }
+
+        const payload = {
+            post: parentComment.post,
+            commenter: { user_id: req.user.user_id, username: req.user.username, avatar: req.user?.avatar },
+            parentComment: parentCommentOID,
+            image: extractedImageURL,
+            comment: req.body.comment,
+        }
+
+        const newComment = new Comment(payload);
+        await newComment.save();
+
+        res.status(200).json({
+            message: "SUCCESSFULLY REPLIED TO A COMMENT!!",
+            comment: newComment,
+        })
+
+    } catch (err) {
+        console.error(err);
+    }
+}
+
+// PATCH /api/comment/:commentId/edit
+const editCommentUnderPost = async (req, res) => {
+    try {   
+        const commentId = req.params.commentId;
+        
+        let extractedImageURL;
+
+        if (req.file) {
+            const b64 = Buffer.from(req.file.buffer).toString("base64");
+            let dataURI = "data:" + req.file.mimetype + ";base64," + b64;
+            const cloudRes = await CLOUDINARY_UPLOAD(dataURI);
+            extractedImageURL = cloudRes?.url;
+        }
+
+        const comment = await Comment.findOneAndUpdate(
+            {
+                $and: [
+                    { "comment_id": Number(commentId) },
+                    { "commenter.user_id": req.user.user_id },
+                ]
+            },
+            {
+                $set: {
+                    comment: req.body.comment,
+                    image: extractedImageURL,
+                }
+            },
+            { new: true },
+        );
+
+        if (!comment) {
+            return res.status(404).json({ message: "WHERE IS UR COMMENT IMMIGRANT! "})
+        }
+
+        res.status(200).json({
+            message: "SUCCESSFULLY UPDATED COMMENT!",
+            updatedComment: comment,
+        })
+
+
+    } catch (err) {
+        console.error(err);
+    }
+}
+
+
+// GET /api/comment/:commentId/reply
+const getAllRepliesUnderComment = async (req, res) => {
+    try {
+        const parentCommentId = parseInt(req.params.commentId);
+
+        if (!parentCommentId) {
+            return res.status(400).json({ message: "WHERE IS YOUR COMMENT ID" });
+        }
+
+        const parentComment = await Comment.findOne({ comment_id: parentCommentId });
+
+        if (!parentComment) {
+            return res.status(404).json({ message: "COMMENT NOT FOUND!" });
+        }
+
+        const parentCommentOID = parentComment._id;
+
+        const replies = await Comment.find({
+            parentComment: parentCommentOID,
+            _id: { $ne: parentCommentOID }
+        });
+
+        res.status(200).json({
+            message: "SUCCESSFULLY RETRIEVED ALL REPLIES TO COMMENT",
+            parent: parentComment,
+            replies: replies
+        });
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: err });
+    }
+};
+
+// GET /api/comment/post/:id
+const getAllCommentsUnderPost = async (req, res) => {
+    try {
+        const postId = req.params.id;
+        const postObject = await Post.findOne({ post_id: postId });
+
+        const allCommentsUnderPost = await Comment.find({ post: postObject });
+
+        res.status(200).json({
+            message: "SUCCESSFULLY RETRIEVED ALL COMMENTS UNDER POST",
+            post: postObject,
+            comments: allCommentsUnderPost,
+        })
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: err });
+    }
+}
+
+
+module.exports = {
+    getAllCommentsForUser,
+    createCommentUnderPost,
+    createReplyToComment,
+    getAllCommentsUnderPost,
+    getAllRepliesUnderComment,
+    editCommentUnderPost,
+};
