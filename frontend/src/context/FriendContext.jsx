@@ -14,7 +14,7 @@ export const FriendProvider = ({ children }) => {
 
     const fetchFriends = async () => {
         try {
-            const res = await axios.get("http://localhost:4200/api/friends/", {
+            const res = await axios.get("${import.meta.env.vite_backend_endpoint}/api/friends/", {
                 withCredentials: true,
             });
             setFriendError(null);
@@ -27,7 +27,7 @@ export const FriendProvider = ({ children }) => {
 
     const fetchAllReceivedRequests = async () => {
         try {
-            const res = await axios.get("http://localhost:4200/api/friends/request/received", {
+            const res = await axios.get("${import.meta.env.vite_backend_endpoint}/api/friends/request/received", {
                 withCredentials: true,
             });
             setFriendError(null);
@@ -40,7 +40,7 @@ export const FriendProvider = ({ children }) => {
 
     const fetchSentRequest = async (userId) => {
         try {
-            const res = await axios.get(`http://localhost:4200/api/friends/request/sent/${userId}`, {
+            const res = await axios.get(`${import.meta.env.vite_backend_endpoint}/api/friends/request/sent/${userId}`, {
                 withCredentials: true,
             });
             
@@ -54,7 +54,7 @@ export const FriendProvider = ({ children }) => {
 
     const fetchAllSentRequests = async () => {
         try {
-            const res = await axios.get("http://localhost:4200/api/friends/request/sent", {
+            const res = await axios.get("${import.meta.env.vite_backend_endpoint}/api/friends/request/sent", {
                 withCredentials: true,
             });
             setFriendError(null);
@@ -67,7 +67,7 @@ export const FriendProvider = ({ children }) => {
 
     const cancelTargetFriendRequest = async (userId) => {
         try {
-            const res = await axios.delete(`http://localhost:4200/api/friends/request/cancel/${userId}`, {
+            const res = await axios.delete(`${import.meta.env.vite_backend_endpoint}/api/friends/request/cancel/${userId}`, {
                 withCredentials: true,
             })
             setCancelFriendRequest(res.data.cancel);
@@ -80,7 +80,7 @@ export const FriendProvider = ({ children }) => {
 
     const acceptTargetFriendRequest = async (userId) => {
         try {
-            const res = await axios.post(`http://localhost:4200/api/friends/request/accept/${userId}`, {}, {
+            const res = await axios.post(`${import.meta.env.vite_backend_endpoint}/api/friends/request/accept/${userId}`, {}, {
                 withCredentials: true,
             })
             setAcceptFriendRequest(res.data.cancel);
@@ -93,7 +93,7 @@ export const FriendProvider = ({ children }) => {
 
     const sendTargetFriendRequest = async (userId) => {
         try {
-            const res = await axios.post(`http://localhost:4200/api/friends/request/${userId}`, {}, {
+            const res = await axios.post(`${import.meta.env.vite_backend_endpoint}/api/friends/request/${userId}`, {}, {
                 withCredentials: true,
             })
             setSentRequests(res.data.sent);

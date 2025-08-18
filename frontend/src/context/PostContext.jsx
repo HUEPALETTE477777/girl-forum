@@ -9,7 +9,7 @@ export const PostProvider = ({ children }) => {
 
     const fetchPosts = async () => {
         try {
-            const res = await axios.get('http://localhost:4200/api/posts/', {
+            const res = await axios.get('${import.meta.env.vite_backend_endpoint}/api/posts/', {
                 withCredentials: true,
             });
             setPosts(res.data);
@@ -20,7 +20,7 @@ export const PostProvider = ({ children }) => {
 
     const fetchPost = async (post_id) => {
         try {
-            const res = await axios.get(`http://localhost:4200/api/posts/${post_id}`, {
+            const res = await axios.get(`${import.meta.env.vite_backend_endpoint}/api/posts/${post_id}`, {
                 withCredentials: true,
             })
             setPost(res.data.post[0]);
@@ -38,7 +38,7 @@ export const PostProvider = ({ children }) => {
                 formData.append('image', payload.file);
             }
 
-            await axios.post('http://localhost:4200/api/posts', formData, {
+            await axios.post('${import.meta.env.vite_backend_endpoint}/api/posts', formData, {
                 withCredentials: true,
                 headers: {
                     'Content-Type': 'multipart/form-data',
@@ -61,7 +61,7 @@ export const PostProvider = ({ children }) => {
                 formData.append('image', payload.file);
             }
 
-            await axios.patch(`http://localhost:4200/api/posts/${payload.post_id}`, formData, {
+            await axios.patch(`${import.meta.env.vite_backend_endpoint}/api/posts/${payload.post_id}`, formData, {
                 withCredentials: true,
                 headers: {
                     'Content-Type': 'multipart/form-data',
@@ -78,7 +78,7 @@ export const PostProvider = ({ children }) => {
     const deletePost = async (post_id) => {
         try {
             const postId = parseInt(post_id)
-            await axios.delete(`http://localhost:4200/api/posts/${postId}`, {
+            await axios.delete(`${import.meta.env.vite_backend_endpoint}/api/posts/${postId}`, {
                 withCredentials: true,
             })
             

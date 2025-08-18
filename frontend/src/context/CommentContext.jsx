@@ -12,7 +12,7 @@ export const CommentProvider = ({ children }) => {
 
     const fetchAllCommentsUnderPost = async (post_id) => {
         try {
-            const res = await axios.get(`http://localhost:4200/api/comment/post/${post_id}`, {
+            const res = await axios.get(`${import.meta.env.VITE_BACKEND_ENDPOINT}/api/comment/post/${post_id}`, {
                 withCredentials: true,
             })
             setAllCommentsUnderPost(res.data.comments);
@@ -24,6 +24,7 @@ export const CommentProvider = ({ children }) => {
     /* 
         jade-ling jinsu barreto babies me through this func here
     */
+
     const createACommentUnderPost = async (payload, onUploadProgress = null) => {
         try {
             const formData = new FormData();
@@ -31,7 +32,7 @@ export const CommentProvider = ({ children }) => {
             if (payload.file) {
                 formData.append('image', payload.file);
             }
-            const res = await axios.post(`http://localhost:4200/api/comment/post/${payload.post_id}`, formData, {
+            const res = await axios.post(`${import.meta.env.vite_backend_endpoint}/api/comment/post/${payload.post_id}`, formData, {
                 withCredentials: true,
                 headers: {
                     'Content-Type': 'multipart/form-data',
@@ -51,7 +52,7 @@ export const CommentProvider = ({ children }) => {
             if (payload.file) {
                 formData.append('image', payload.file);
             }
-            const res = await axios.post(`http://localhost:4200/api/comment/${payload.comment_id}/reply`, formData, {
+            const res = await axios.post(`${import.meta.env.vite_backend_endpoint}/api/comment/${payload.comment_id}/reply`, formData, {
                 withCredentials: true,
                 headers: {
                     'Content-Type': 'multipart/form-data',
@@ -66,7 +67,7 @@ export const CommentProvider = ({ children }) => {
 
     const getAllRepliesUnderComment = async (comment_id) => {
         try {
-            const res = await axios.get(`http://localhost:4200/api/comment/${comment_id}/reply`, {
+            const res = await axios.get(`${import.meta.env.vite_backend_endpoint}/api/comment/${comment_id}/reply`, {
                 withCredentials: true,
             });
             setAllRepliesUnderComment(prev => ({
@@ -87,7 +88,7 @@ export const CommentProvider = ({ children }) => {
                 formData.append('image', payload.file);
             }
 
-            const res = await axios.patch(`http://localhost:4200/api/comment/${payload.comment_id}/edit`, formData, {
+            const res = await axios.patch(`${import.meta.env.vite_backend_endpoint}/api/comment/${payload.comment_id}/edit`, formData, {
                 withCredentials: true,
                 headers: {
                     'Content-Type': 'multipart/form-data',
