@@ -10,18 +10,9 @@ DB_CONNECTION();
 
 const app = express();
 
-const allowedOrigins = [
-    'https://girls-only.vercel.app',
-];
-
-
 app.use(cors({
-    origin: function (origin, callback) {
-        if (allowedOrigins.includes(origin)) {
-            callback(null, true);
-        }
-    },
-    credentials: true 
+    credentials: true,
+    origin: process.env.FRONTEND_ORIGIN, 
 }));
 
 app.use(cookieParser());
