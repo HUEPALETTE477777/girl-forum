@@ -19,7 +19,7 @@ export const AuthProvider = ({ children }) => {
 
     const fetchUser = async () => {
         try {
-            const res = await axios.get(`${import.meta.env.vite_backend_endpoint}/api/users/user`, {
+            const res = await axios.get(`${import.meta.env.VITE_BACKEND_ENDPOINT}/api/users/user`, {
                 withCredentials: true,
             });
             setUser(res.data.user);
@@ -27,7 +27,7 @@ export const AuthProvider = ({ children }) => {
         } catch (err) {
             setUser(null);
             // if (err.response?.status === 401) {
-            //     window.location.href = "/unauthorized";
+            //     window.location.href = `/unauthorized`;
             // }
             setCurrentAuthError(err.response.status);
         }
@@ -35,7 +35,7 @@ export const AuthProvider = ({ children }) => {
 
     const login = async (payload) => {
         try {
-            await axios.post('${import.meta.env.vite_backend_endpoint}/api/users/login', payload, {
+            await axios.post(`${import.meta.env.VITE_BACKEND_ENDPOINT}/api/users/login`, payload, {
                 withCredentials: true,
             });
             await fetchUser();
@@ -47,7 +47,7 @@ export const AuthProvider = ({ children }) => {
 
     const signup = async (payload) => {
         try {
-            await axios.post('${import.meta.env.vite_backend_endpoint}/api/users/signup', payload, {
+            await axios.post(`${import.meta.env.VITE_BACKEND_ENDPOINT}/api/users/signup`, payload, {
                 withCredentials: true,
             });
             await fetchUser();
@@ -60,7 +60,7 @@ export const AuthProvider = ({ children }) => {
 
     const logout = async () => {
         try {
-            await axios.post('${import.meta.env.vite_backend_endpoint}/api/users/logout', {}, {
+            await axios.post(`${import.meta.env.VITE_BACKEND_ENDPOINT}/api/users/logout`, {}, {
                 withCredentials: true,
             });
             setUser(null);
@@ -74,7 +74,7 @@ export const AuthProvider = ({ children }) => {
     const searchUser = async (payload) => {
         try {
             if (user) {
-                const res = await axios.post('${import.meta.env.vite_backend_endpoint}/api/users/user/search', { username: payload }, {
+                const res = await axios.post(`${import.meta.env.VITE_BACKEND_ENDPOINT}/api/users/user/search`, { username: payload }, {
                     withCredentials: true,
                 });
                 setSearchedUser(res.data.users);
@@ -94,7 +94,7 @@ export const AuthProvider = ({ children }) => {
                 formData.append('avatar', payload.file);
             }
 
-            await axios.patch('${import.meta.env.vite_backend_endpoint}/api/users/user/', formData, {
+            await axios.patch(`${import.meta.env.VITE_BACKEND_ENDPOINT}/api/users/user/`, formData, {
                 withCredentials: true,
                 headers: {
                     'Content-Type': 'multipart/form-data',
