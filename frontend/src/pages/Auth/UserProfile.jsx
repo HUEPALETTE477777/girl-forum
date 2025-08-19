@@ -8,8 +8,6 @@ import DateFormat from '../../utils/FormatDate';
 const UserProfile = () => {
     const { user } = useAuth();
 
-    // asdasd
-
     return (
         <div className="text-center">
             {
