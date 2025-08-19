@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { usePost } from '../context/PostContext'
+import { usePost } from '../../context/PostContext'
 import { useParams } from 'react-router-dom';
-import PostTextEditor from '../utils/PostTextEditor';
-import "../utils/TipTapStyles.css"
+import PostTextEditor from '../../utils/PostTextEditor';
+import "../../utils/TipTapStyles.css"
 
 const EditPost = () => {
     const { post, fetchPost, updatePost } = usePost();

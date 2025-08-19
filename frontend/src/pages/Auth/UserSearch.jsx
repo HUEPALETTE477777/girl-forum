@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { useAuth } from '../context/AuthContext';
-import { useFriend } from '../context/FriendContext';
-import errorHandler from '../utils/ErrorHandler';
-import UserCard from '../components/UserCard';
+import { useAuth } from '../../context/AuthContext';
+import { useFriend } from '../../context/FriendContext';
+import errorHandler from '../../utils/ErrorHandler';
+import UserCard from '../../components/UserCard';
 
 const UserSearch = () => {
     const { user, searchedUser } = useAuth();

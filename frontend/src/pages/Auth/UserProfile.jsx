@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react'
 
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../../context/AuthContext';
 import { Link } from 'react-router-dom';
 
-import DateFormat from '../utils/FormatDate';
+import DateFormat from '../../utils/FormatDate';
 
-const Profile = () => {
+const UserProfile = () => {
     const { user } = useAuth();
 
     return (
@@ -33,4 +33,4 @@ const Profile = () => {
     )
 }
 
-export default Profile
+export default UserProfile

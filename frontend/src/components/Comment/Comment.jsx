@@ -3,10 +3,10 @@ import { useParams } from 'react-router-dom';
 
 import CommentReplyField from './CommentReplyField';
 import CommentEditField from './CommentEditField';
-import DateFormat from '../utils/FormatDate';
+import DateFormat from '../../utils/FormatDate';
 
-import { useComment } from '../context/CommentContext';
-import { useAuth } from '../context/AuthContext';
+import { useComment } from '../../context/CommentContext';
+import { useAuth } from '../../context/AuthContext';
 
 const Comment = ({ c }) => {
     const { user } = useAuth();

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 
-import { useFriend } from '../context/FriendContext';
-import { useAuth } from '../context/AuthContext';
+import { useFriend } from '../../context/FriendContext';
+import { useAuth } from '../../context/AuthContext';
 
-import DateFormat from "../utils/FormatDate";
+import DateFormat from "../../utils/FormatDate";
 
 const Sent = () => {
     const { sentRequests, fetchAllSentRequests, cancelTargetFriendRequest } = useFriend();
