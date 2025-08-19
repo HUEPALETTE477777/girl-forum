@@ -11,7 +11,7 @@ import { useParams } from 'react-router-dom';
 
 */
 
-const CommentReplyField = ({ comment_id, hasClickedReplyButton, hasClickedEditButton }) => {
+const CommentReplyField = ({ comment_id, hasClickedReplyButton, hasClickedEditButton, onReplySubmitted }) => {
     const [selectedFile, setSelectedFile] = useState(null);
     const [replyText, setReplyText] = useState('');
     const [previewUrl, setPreviewUrl] = useState(null);
@@ -55,6 +55,8 @@ const CommentReplyField = ({ comment_id, hasClickedReplyButton, hasClickedEditBu
             if (fileInputRef.current) {
                 fileInputRef.current.value = '';
             }
+
+            onReplySubmitted?.();
 
         } catch (err) {
             console.error(err);
