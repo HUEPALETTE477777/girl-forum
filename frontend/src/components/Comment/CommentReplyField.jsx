@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 
-import { useComment } from '../context/CommentContext';
+import { useComment } from '../../context/CommentContext';
 import { useParams } from 'react-router-dom';
 
 /* 

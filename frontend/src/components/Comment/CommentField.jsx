@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { useComment } from '../context/CommentContext';
+import { useComment } from '../../context/CommentContext';
 import { useParams } from 'react-router-dom';
 
 const CommentField = () => {

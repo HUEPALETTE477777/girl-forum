@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { usePost } from '../context/PostContext';
-import DateFormat from '../utils/FormatDate';
+import { usePost } from '../../context/PostContext';
+import DateFormat from '../../utils/FormatDate';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import PostModal from '../components/PostModal';
+import { useAuth } from '../../context/AuthContext';
+import PostModal from '../../components/PostModal';
 
 const Posts = () => {
     const [currentPage, setCurrentPage] = useState(1);

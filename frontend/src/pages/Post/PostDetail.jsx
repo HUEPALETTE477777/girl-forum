@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { useComment } from '../context/CommentContext';
-import { usePost } from '../context/PostContext';
+import { useComment } from '../../context/CommentContext';
+import { usePost } from '../../context/PostContext';
 
-import DateFormat from '../utils/FormatDate';
-import CommentField from '../components/CommentField';
-import Comment from '../components/Comment';
+import DateFormat from '../../utils/FormatDate';
+import CommentField from '../../components/Comment/CommentField';
+import Comment from '../../components/Comment/Comment';
 
 const PostDetail = () => {
     const [loading, setLoading] = useState(true);

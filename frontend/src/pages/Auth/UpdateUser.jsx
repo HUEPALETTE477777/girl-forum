@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import errorHandler from '../utils/ErrorHandler';
+import errorHandler from '../../utils/ErrorHandler';
 
 const UpdateUser = () => {
     const { user, updateUser } = useAuth();

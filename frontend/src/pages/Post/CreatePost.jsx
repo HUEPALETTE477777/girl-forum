@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react'
-import { usePost } from '../context/PostContext'
-import PostTextEditor from '../utils/PostTextEditor'
-import "../utils/TipTapStyles.css"
+import { usePost } from '../../context/PostContext'
+import PostTextEditor from '../../utils/PostTextEditor'
+import "../../utils/TipTapStyles.css"
 
 const CreatePost = () => {
     const [title, setTitle] = useState('')

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
-import { useFriend } from '../context/FriendContext';
+import { useFriend } from '../../context/FriendContext';
 
-import DateFormat from '../utils/FormatDate';
+import DateFormat from '../../utils/FormatDate';
 import { Link } from 'react-router-dom';
 
 const Friends = () => {

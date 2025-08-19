@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../../context/AuthContext';
 
 import { Link } from 'react-router-dom';
 
 
-import errorHandler from '../utils/ErrorHandler';
+import errorHandler from '../../utils/ErrorHandler';
 
 const Login = () => {
     const [username, setUsername] = useState('');
