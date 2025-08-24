@@ -11,6 +11,8 @@ export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [searchedUser, setSearchedUser] = useState(null);
 
+    const [viewedUserProfile, setViewedUserProfile] = useState(null);
+    const [loading, setLoading] = useState(true);
     const [currentAuthError, setCurrentAuthError] = useState(null);
 
     useEffect(() => {
@@ -18,6 +20,7 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
     const fetchUser = async () => {
+        setLoading(true);
         try {
             const res = await axios.get(`${import.meta.env.VITE_BACKEND_ENDPOINT}/api/users/user`, {
                 withCredentials: true,
@@ -30,6 +33,8 @@ export const AuthProvider = ({ children }) => {
             //     window.location.href = `/unauthorized`;
             // }
             setCurrentAuthError(err.response.status);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -109,8 +114,32 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
+    const getViewingUserProfile = async (user_id) => {
+        try {
+            const res = await axios.get(`${import.meta.env.VITE_BACKEND_ENDPOINT}/api/users/user/${user_id}`, {}, {
+                withCredentials: true,
+            })
+            setViewedUserProfile(res.data.user);
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
     return (
-        <AuthContext.Provider value={{ user, fetchUser, login, logout, signup, searchUser, searchedUser, updateUser, currentAuthError }}>
+        <AuthContext.Provider value={{
+            user,
+            fetchUser,
+            login,
+            logout,
+            signup,
+            searchUser,
+            searchedUser,
+            updateUser,
+            currentAuthError,
+            viewedUserProfile,
+            getViewingUserProfile,
+            loading,
+        }}>
             {children}
         </AuthContext.Provider>
     );

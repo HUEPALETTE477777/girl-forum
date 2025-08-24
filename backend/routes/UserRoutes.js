@@ -18,7 +18,7 @@ const upload = require("../middleware/Multer.js")
 
 router.get('/', getAllUsers);
 router.get('/user', getUserFromToken, getUserByToken);
-router.get('/:id', getUserById);
+router.get('/user/:id', getUserById);
 
 router.post('/signup', createUser);
 router.post('/login', loginUser);

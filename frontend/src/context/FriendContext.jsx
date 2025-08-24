@@ -11,6 +11,7 @@ export const FriendProvider = ({ children }) => {
     const [acceptFriendRequest, setAcceptFriendRequest] = useState(null);
     const [friendError, setFriendError] = useState(null);
 
+    const [targetUserFriends, setTargetUserFriends] = useState([]);
 
     const fetchFriends = async () => {
         try {
@@ -43,7 +44,7 @@ export const FriendProvider = ({ children }) => {
             const res = await axios.get(`${import.meta.env.VITE_BACKEND_ENDPOINT}/api/friends/request/sent/${userId}`, {
                 withCredentials: true,
             });
-            
+
             setFriendError(null);
             setSentRequests(res.data.sent);
         } catch (err) {
@@ -104,6 +105,18 @@ export const FriendProvider = ({ children }) => {
         }
     }
 
+    const fetchTargetUserFriends = async (userId) => {
+        try {
+            const res = await axios.get(`${import.meta.env.VITE_BACKEND_ENDPOINT}/api/friends/${userId}`, {
+                withCredentials: true,
+            })
+            setTargetUserFriends(res.data.friends);
+            setFriendError(null);
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
     return (
         <FriendContext.Provider value={{
             friends,
@@ -118,6 +131,8 @@ export const FriendProvider = ({ children }) => {
             setSentRequests,
             friendError,
             fetchSentRequest,
+            fetchTargetUserFriends,
+            targetUserFriends,
         }}>
             {children}
         </FriendContext.Provider>

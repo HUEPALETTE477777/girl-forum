@@ -83,7 +83,12 @@ const Posts = () => {
                                     <div className="flex flex-row items-center gap-3">
                                         <img src={post.author?.avatar} className="w-16 h-16 aspect-square object-cover border-2" />
                                         <div className="flex flex-col">
-                                            <span>Author: {post.author.username}</span>
+                                            <Link to={{
+                                                pathname: `/profile/${post.author.user_id}`,
+                                            }}
+                                                className=" hover:border-gray-700 hover:text-gray-400 hover:border-b-2">
+                                                Author: {post.author.username}
+                                            </Link>
                                             <span>Post ID: {post.post_id}</span>
                                         </div>
                                         {

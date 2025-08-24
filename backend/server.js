@@ -11,8 +11,8 @@ DB_CONNECTION();
 const app = express();
 
 app.use(cors({
-    credentials: true,
     origin: process.env.FRONTEND_ORIGIN, 
+    credentials: true,
 }));
 
 app.use(cookieParser());

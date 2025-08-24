@@ -13,8 +13,6 @@ const Comment = ({ c }) => {
     const [hasClickedReplyButton, setHasClickedReplyButton] = useState(false);
     const [hasClickedEditButton, setHasClickedEditButton] = useState(false);
 
-    const { id } = useParams();
-
     const handleEditButtonClick = () => {
         setHasClickedEditButton(prev => !prev);
     };

@@ -17,6 +17,7 @@ import Sent from "../pages/Auth/Sent";
 import PostDetail from "../pages/Post/PostDetail"
 import EditPost from "../pages/Post/EditPost";
 import Unauthorized from "../pages/Auth/Unauthorized";
+import UserTargetProfile from "../pages/Auth/UserTargetProfile";
 
 const router = createBrowserRouter([
     {
@@ -35,6 +36,7 @@ const router = createBrowserRouter([
                 element: <PrivateRoute />, 
                 children: [
                     { path: "/profile", element: <UserProfile /> },
+                    { path: "/profile/:id", element: <UserTargetProfile /> },
                     { path: "/profile/update", element: <UpdateUser /> },
                     { path: "/posts", element: <Posts /> },
                     { path: "/posts/create", element: <CreatePost /> },

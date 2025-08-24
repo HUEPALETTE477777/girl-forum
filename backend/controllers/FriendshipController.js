@@ -4,7 +4,6 @@
     JULY 26 2025 FINISHED THIS TRASH GARBAGE
 */
 
-
 const {
     findAllAcceptedFriendshipsForUser,
     findAllReceivedFriendRequestsForUser,
@@ -30,6 +29,7 @@ const getAllFriends = async (req, res) => {
         USER_KEYS.FRIEND,
         RESPONSE_KEYS.FRIENDS,
         SUCCESS_MESSAGES.ALL_FRIENDS,
+        req.user.user_id,
     )
 };
 
@@ -75,6 +75,7 @@ const getAllReceivedFriendRequests = async (req, res) => {
         USER_KEYS.REQUESTER,
         RESPONSE_KEYS.RECEIVED,
         SUCCESS_MESSAGES.ALL_RECEIVED_FRIEND_REQUESTS,
+        req.user.user_id,
     )
 };
 
@@ -87,6 +88,7 @@ const getAllSentFriendRequests = async (req, res) => {
         USER_KEYS.RECIPIENT,
         RESPONSE_KEYS.SENT,
         SUCCESS_MESSAGES.ALL_SENT_FRIEND_REQUESTS,
+        req.user.user_id,
     )
 }
 
@@ -110,6 +112,7 @@ const unfriendAllFriends = async (req, res) => {
         USER_KEYS.FRIEND,
         RESPONSE_KEYS.UNFRIENDED,
         SUCCESS_MESSAGES.UNFRIENDED_ALL_FRIENDS,
+        req.user.user_id,
     )
 };
 
@@ -124,6 +127,21 @@ const unfriendSingleFriend = async (req, res) => {
     )
 };
 
+// GET /api/friends/:id
+const getAllFriendsOfUser = async (req, res) => {
+    const user_id = req.params.id;
+
+    return handleAllFriendRequests(
+        req, 
+        res,
+        findAllAcceptedFriendshipsForUser,
+        USER_KEYS.FRIEND,
+        RESPONSE_KEYS.FRIENDS,
+        SUCCESS_MESSAGES.ALL_FRIENDS,
+        user_id,
+    )
+}
+
 module.exports = {
     getAllFriends,
     sendFriendRequest,
@@ -133,4 +151,5 @@ module.exports = {
     getAllSentFriendRequests,
     unfriendAllFriends,
     unfriendSingleFriend,
+    getAllFriendsOfUser,
 };

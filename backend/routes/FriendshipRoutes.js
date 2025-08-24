@@ -3,6 +3,7 @@ const router = express.Router();
 
 const {
     getAllFriends,
+    getAllFriendsOfUser,
     sendFriendRequest,
     acceptFriendRequest,
     cancelFriendRequest,
@@ -16,6 +17,7 @@ const {
 const getUserFromToken = require('../middleware/AuthMiddleware.js'); 
 
 router.get("/", getUserFromToken, getAllFriends);
+router.get("/:id", getUserFromToken, getAllFriendsOfUser)
 router.get("/request/received", getUserFromToken, getAllReceivedFriendRequests)
 router.get("/request/sent", getUserFromToken, getAllSentFriendRequests)
 

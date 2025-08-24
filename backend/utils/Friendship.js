@@ -3,7 +3,7 @@ const Friendship = require("../models/FriendshipSchema");
 
 const { USER_KEYS, FRIENDSHIP_ACTIONS, STATUS, ERROR_MESSAGES } = require("./FriendshipConstants")
 
-const USER_POPULATION_VALUE = 'username user_id role createdAt';
+const USER_POPULATION_VALUE = 'username user_id role avatar createdAt';
 
 const getUserByUID = async (userId) => {
     return await User.findOne({ user_id: userId });
@@ -102,6 +102,7 @@ const requestMappingAll = (requests, userKey, userObjId) => {
             user_id: user.user_id,
             username: user.username,
             role: user.role,
+            avatar: user?.avatar,
 
             createdAt: req.createdAt,
             updatedAt: req.updatedAt,
@@ -123,23 +124,23 @@ const requestMappingAll = (requests, userKey, userObjId) => {
     responseKey is 'sent' or 'received'
 */
 
-const handleAllFriendRequests = async (req, res, findRequestType, userKey, responseKey, successMessage) => {
+const handleAllFriendRequests = async (req, res, findRequestType, userKey, responseKey, successMessage, user_id) => {
     try {
-        const user = await getUserByUID(req.user.user_id);
+        const user = await getUserByUID(user_id);
         if (!user) {
             return res.status(404).json(ERROR_MESSAGES.NOT_FOUND_USER_KEY);
         }
 
         const requests = await findRequestType(req.user._id);
 
-        const result = requestMappingAll(requests, userKey, req.user._id);
+        const result = requestMappingAll(requests, userKey, user._id);
 
         res.status(200).json({
             message: successMessage,
             user: {
-                user_id: req.user.user_id,
-                username: req.user.username,
-                role: req.user.role,
+                user_id: user.user_id,
+                username: user.username,
+                role: user.role,
             }, 
             [responseKey]: result,
         });
