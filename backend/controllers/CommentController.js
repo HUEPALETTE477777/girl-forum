@@ -1,10 +1,11 @@
 const Comment = require("../models/CommentSchema")
 const Post = require("../models/PostSchema")
+const User = require("../models/UserSchema")
 
 const CLOUDINARY_UPLOAD = require("../config/cloudinary")
 
 // GET /api/comment/
-const getAllCommentsForUser = async (req, res) => {
+const getAllComments = async (req, res) => {
     try {
         const user = req.user;
         if (!user) {
@@ -19,6 +20,63 @@ const getAllCommentsForUser = async (req, res) => {
         res.status(500).json({ message: err });
     }
 }
+
+// GET /api/comment/users/:id
+const getAllCommentsForUser = async (req, res) => {
+    try {
+        if (!req.user) {
+            return res.status(401).json({ message: "IMMIGRANT YOU MUST BE LOGGED IN!" });
+        }
+
+        const id = req.params.id;
+        const user = await User.findOne({ user_id: id });
+
+        if (!user) {
+            return res.status(404).json({ message: "USER NOT FOUND!" });
+        }
+
+        const targetUserComments = await Comment.find({ 'commenter.user_id': id });
+
+        // USE A SET TO STORE THE DIFFERENT POSTS
+        // NOW WE ONLY FETCH THOSE AMOUNT OF POSTS
+        const uniquePostIds = [...new Set(targetUserComments.map(comment => comment.post.toString()))];
+        const posts = await Post.find({ _id: { $in: uniquePostIds } });
+
+        const postMap = {};
+        posts.forEach(post => {
+            postMap[post._id.toString()] = post;
+        });
+
+
+        const flattenedComments = targetUserComments.map(comment => {
+            const { commenter, ...rest } = comment._doc;
+            let post;
+            if (uniquePostIds.includes(comment.post.toString())) {
+                post = postMap[comment.post.toString()];
+            }
+            
+            return {
+                ...rest,
+                user_id: commenter.user_id,
+                username: commenter.username,
+                avatar: commenter.avatar,
+                image: comment.image || null,
+                post: post,
+            };
+        });
+
+        return res.status(200).json({
+            message: "SUCCESSFULLY GOT ALL COMMENTS FOR TARGET USER!",
+            comments: flattenedComments,
+        })
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: err });
+    }
+
+}
+
 
 // POST /api/comment/post/:id
 const createCommentUnderPost = async (req, res) => {
@@ -98,9 +156,9 @@ const createReplyToComment = async (req, res) => {
 
 // PATCH /api/comment/:commentId/edit
 const editCommentUnderPost = async (req, res) => {
-    try {   
+    try {
         const commentId = req.params.commentId;
-        
+
         let extractedImageURL;
 
         if (req.file) {
@@ -127,7 +185,7 @@ const editCommentUnderPost = async (req, res) => {
         );
 
         if (!comment) {
-            return res.status(404).json({ message: "WHERE IS UR COMMENT IMMIGRANT! "})
+            return res.status(404).json({ message: "WHERE IS UR COMMENT IMMIGRANT! " })
         }
 
         res.status(200).json({
@@ -197,10 +255,11 @@ const getAllCommentsUnderPost = async (req, res) => {
 
 
 module.exports = {
-    getAllCommentsForUser,
+    getAllComments,
     createCommentUnderPost,
     createReplyToComment,
     getAllCommentsUnderPost,
     getAllRepliesUnderComment,
     editCommentUnderPost,
+    getAllCommentsForUser,
 };

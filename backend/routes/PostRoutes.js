@@ -10,13 +10,15 @@ const {
     getPostById,
     updatePostById,
     deletePostById,
+    getAllPostsForUser,
 } = require("../controllers/PostController")
 
 // SUPER HANDY GET USER FROM TOKEN
 const getUserFromToken = require('../middleware/AuthMiddleware.js');
 
-router.get('/', getAllPosts);
+router.get('/', getAllPosts)
 router.get('/:id', getPostById)
+router.get('/user/:id', getUserFromToken, getAllPostsForUser)
 
 router.post('/', getUserFromToken, upload.single("image"), createPost);
 

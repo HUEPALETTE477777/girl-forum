@@ -1,5 +1,6 @@
 const Post = require("../models/PostSchema");
 const Comment = require("../models/CommentSchema");
+const User = require("../models/UserSchema")
 
 const sanitizeHtml = require('sanitize-html');
 
@@ -13,6 +14,27 @@ const getAllPosts = async (req, res) => {
     } catch (err) {
         console.error(err);
         return res.status(500).json({ message: "INTERNAL SERVER ERROR" });
+    }
+}
+
+// GET /api/posts/user/:id
+const getAllPostsForUser = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const targetUser = await User.findOne({ user_id : id });
+
+        if (!targetUser) {
+            return res.status(404).json({ message: "CRIMINAL NO USER FOUND!"});
+        }
+
+        const targetUserPosts = await Post.find({ 
+            'author.user_id': targetUser.user_id,
+        });
+
+        res.status(200).json({ message: "SUCCESSFULLY RETRIEVED POSTS", posts: targetUserPosts});
+
+    } catch (err) {
+        console.error(err);
     }
 }
 
@@ -158,4 +180,5 @@ module.exports = {
     getPostById,
     updatePostById,
     deletePostById,
+    getAllPostsForUser,
 }

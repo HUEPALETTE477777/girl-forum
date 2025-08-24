@@ -96,6 +96,7 @@ const requestMappingAll = (requests, userKey, userObjId) => {
             }
         }
 
+
         // IMPORTANT PAYLOAD MAPPING!
         return {
             _id: user._id,
@@ -131,8 +132,7 @@ const handleAllFriendRequests = async (req, res, findRequestType, userKey, respo
             return res.status(404).json(ERROR_MESSAGES.NOT_FOUND_USER_KEY);
         }
 
-        const requests = await findRequestType(req.user._id);
-
+        const requests = await findRequestType(user._id);
         const result = requestMappingAll(requests, userKey, user._id);
 
         res.status(200).json({

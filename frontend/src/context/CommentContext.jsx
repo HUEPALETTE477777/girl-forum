@@ -10,6 +10,8 @@ export const CommentProvider = ({ children }) => {
     const [allRepliesUnderComment, setAllRepliesUnderComment] = useState({});
     const [editedComment, setEditedComment] = useState(null);
 
+    const [allTargetUserComments, setAllTargetUserComments] = useState([]);
+
     const fetchAllCommentsUnderPost = async (post_id) => {
         try {
             const res = await axios.get(`${import.meta.env.VITE_BACKEND_ENDPOINT}/api/comment/post/${post_id}`, {
@@ -101,6 +103,18 @@ export const CommentProvider = ({ children }) => {
         }
     }
 
+    const fetchAllTargetUserComments = async (user_id) => {
+        try {   
+            setAllTargetUserComments([]);
+            const res = await axios.get(`${import.meta.env.VITE_BACKEND_ENDPOINT}/api/comment/users/${user_id}`, {
+                withCredentials: true,
+            })
+            setAllTargetUserComments(res.data.comments);
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
 
     return (
         <CommentContext.Provider value={{
@@ -114,6 +128,8 @@ export const CommentProvider = ({ children }) => {
             getAllRepliesUnderComment,
             editComment,
             editedComment,
+            fetchAllTargetUserComments,
+            allTargetUserComments,
         }}>
             {children}
         </CommentContext.Provider>
