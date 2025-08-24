@@ -13,9 +13,9 @@ const generateToken = (user, res) => {
     });
 
     res.cookie('jwt', token, {
-        httpOnly: false,
-        sameSite: 'lax',
-        secure: false, // TRUE IN PROD
+        httpOnly: true, 
+        sameSite: 'none', // NONE IN PROD
+        secure: true, // TRUE IN PROD
         maxAge: 1000 * 60 * 60 // 1 HOUR
     });
 
