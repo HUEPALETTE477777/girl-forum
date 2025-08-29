@@ -10,14 +10,21 @@ const Posts = () => {
     const { posts, fetchPosts, deletePost } = usePost();
     const { user } = useAuth();
 
+    const [loading, setLoading] = useState(true);
+
     useEffect(() => {
-        fetchPosts();
+        const loadData = async () => {
+            setLoading(true);
+            await fetchPosts();
+            setLoading(false);
+        }
+        loadData();
     }, [])
 
     const postsPerPage = 2;
     const startIndex = (currentPage - 1) * postsPerPage;
     const endIndex = startIndex + postsPerPage;
-    const currentPosts = posts.slice(startIndex, endIndex);
+    let currentPosts = posts.slice(startIndex, endIndex);
 
     const postsLength = posts.length || 0;
     const totalPages = Math.ceil(postsLength / postsPerPage);

@@ -7,6 +7,8 @@ export const PostProvider = ({ children }) => {
     const [posts, setPosts] = useState([]);
     const [post, setPost] = useState({});
 
+    const [userPosts, setUserPosts] = useState([]);
+
     const fetchPosts = async () => {
         try {
             const res = await axios.get(`${import.meta.env.VITE_BACKEND_ENDPOINT}/api/posts/`, {
@@ -24,6 +26,17 @@ export const PostProvider = ({ children }) => {
                 withCredentials: true,
             })
             setPost(res.data.post[0]);
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+    const fetchUserPosts = async (user_id) => {
+        try {
+            const res = await axios.get(`${import.meta.env.VITE_BACKEND_ENDPOINT}/api/posts/user/${user_id}`, {
+                withCredentials: true,
+            })
+            setUserPosts(res.data.posts);
         } catch (err) {
             console.error(err);
         }
@@ -98,6 +111,8 @@ export const PostProvider = ({ children }) => {
             post,
             updatePost,
             deletePost,
+            fetchUserPosts,
+            userPosts,
         }}>
             {children}
         </PostContext.Provider>

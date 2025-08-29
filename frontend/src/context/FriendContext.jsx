@@ -106,13 +106,13 @@ export const FriendProvider = ({ children }) => {
     }
 
     const fetchTargetUserFriends = async (userId) => {
+        setTargetUserFriends([]);
         try {
-            setTargetUserFriends([]);
-
             const res = await axios.get(`${import.meta.env.VITE_BACKEND_ENDPOINT}/api/friends/${userId}`, {
                 withCredentials: true,
             })
             setTargetUserFriends(res.data.friends);
+            console.log(res.data.friends);
             setFriendError(null);
         } catch (err) {
             console.error(err);

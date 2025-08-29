@@ -37,8 +37,8 @@ const getAllCommentsForUser = async (req, res) => {
 
         const targetUserComments = await Comment.find({ 'commenter.user_id': id });
 
-        // USE A SET TO STORE THE DIFFERENT POSTS
-        // NOW WE ONLY FETCH THOSE AMOUNT OF POSTS
+        // USE A SET TO STORE THE DIFFERENT POSTS 
+        // NOW WE ONLY FETCH THOSE AMOUNT OF POSTS 
         const uniquePostIds = [...new Set(targetUserComments.map(comment => comment.post.toString()))];
         const posts = await Post.find({ _id: { $in: uniquePostIds } });
 
@@ -47,28 +47,36 @@ const getAllCommentsForUser = async (req, res) => {
             postMap[post._id.toString()] = post;
         });
 
+        const groupedComments = {};
 
-        const flattenedComments = targetUserComments.map(comment => {
-            const { commenter, ...rest } = comment._doc;
-            let post;
-            if (uniquePostIds.includes(comment.post.toString())) {
-                post = postMap[comment.post.toString()];
+        targetUserComments.forEach(comment => {
+            const postId = comment.post.toString();
+
+            if (!groupedComments[postId]) {
+                groupedComments[postId] = {
+                    post: postMap[postId],
+                    comments: []
+                };
             }
-            
-            return {
-                ...rest,
-                user_id: commenter.user_id,
-                username: commenter.username,
-                avatar: commenter.avatar,
-                image: comment.image || null,
-                post: post,
-            };
+            groupedComments[postId].comments.push({
+                _id: comment._id,
+                user_id: comment.commenter.user_id,
+                username: comment.commenter.username,
+                avatar: comment.commenter.avatar,
+                comment: comment.comment,
+                comment_id: comment.comment_id,
+                createdAt: comment.createdAt,
+                updatedAt: comment.updatedAt,
+                image: comment.image || null
+            });
         });
+
+        const groupedArray = Object.values(groupedComments);
 
         return res.status(200).json({
             message: "SUCCESSFULLY GOT ALL COMMENTS FOR TARGET USER!",
-            comments: flattenedComments,
-        })
+            comments: groupedArray,
+        });
 
     } catch (err) {
         console.error(err);
