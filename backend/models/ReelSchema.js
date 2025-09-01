@@ -2,12 +2,11 @@ const mongoose = require('mongoose');
 const ApplyAutoIncrementingField = require('../utils/AutoIncrementFields');
 const { Schema } = mongoose;
 
-const PostSchema = new Schema({
-    post_id: {
+const ReelSchema = new Schema({
+    reel_id: {
         type: Number,
-        unique: true,
         index: true,
-        required: true,
+        unique: true
     },
 
     author: {
@@ -15,29 +14,34 @@ const PostSchema = new Schema({
         username: { type: String, required: false },
         avatar: { type: String, required: false },
     },
-    
-    title: {
+
+    videoUrl: {
         type: String,
         required: true,
     },
 
-    content: {
+    caption: {
         type: String,
-        required: false,
+        required: true,
     },
 
-    image: {
-        type: String,
-        required: false,
-    }
+    hashtags: {
+        type: [String],
+        required: true,
+    },
 
+    views: {
+        type: Number,
+        default: 0
+    },
+  
 },
     {
         timestamps: true,
     }
 );
 
-ApplyAutoIncrementingField(PostSchema, "post_id");
+ApplyAutoIncrementingField(ReelSchema, "reel_id");
 
 
-module.exports = mongoose.model('Post', PostSchema);
+module.exports = mongoose.model("Reel", ReelSchema);

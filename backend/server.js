@@ -22,6 +22,7 @@ app.use('/api/users', require('./routes/UserRoutes'));
 app.use('/api/posts', require('./routes/PostRoutes'));
 app.use('/api/friends', require('./routes/FriendshipRoutes'));
 app.use('/api/comment', require('./routes/CommentRoutes'))
+app.use('/api/reels', require('./routes/ReelRoutes'));
 
 const port = process.env.PORT || 6666;
 app.listen(port, () => console.log(`SERVER RUNNING ON PORT ${port}`));

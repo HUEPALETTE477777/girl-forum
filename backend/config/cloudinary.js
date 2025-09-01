@@ -9,7 +9,7 @@ cloudinary.config({
 const cloudinaryUpload = async (file) => {
     try {
         const res = await cloudinary.uploader.upload(file, {
-            resource_type: "auto",
+            resource_type: "image",
         });
         return res;
     } catch (err) {
@@ -17,4 +17,20 @@ const cloudinaryUpload = async (file) => {
     }
 }
 
-module.exports = cloudinaryUpload;
+const cloudinaryVideoUpload = async (file) => {
+    try {
+        const res = await cloudinary.uploader.upload_large(file, {
+            resource_type: "video", 
+        })
+        return res;
+    } catch (err) {
+        console.error(err);
+    }
+}
+
+
+
+module.exports = {
+    cloudinaryUpload,
+    cloudinaryVideoUpload,
+};

@@ -97,7 +97,7 @@ const createCommentUnderPost = async (req, res) => {
         if (req.file) {
             const b64 = Buffer.from(req.file.buffer).toString("base64");
             let dataURI = "data:" + req.file.mimetype + ";base64," + b64;
-            const cloudRes = await CLOUDINARY_UPLOAD(dataURI);
+            const cloudRes = await CLOUDINARY_UPLOAD.cloudinaryUpload(dataURI);
             extractedImageURL = cloudRes?.url;
         }
 
@@ -137,7 +137,7 @@ const createReplyToComment = async (req, res) => {
         if (req.file) {
             const b64 = Buffer.from(req.file.buffer).toString("base64");
             let dataURI = "data:" + req.file.mimetype + ";base64," + b64;
-            const cloudRes = await CLOUDINARY_UPLOAD(dataURI);
+            const cloudRes = await CLOUDINARY_UPLOAD.cloudinaryUpload(dataURI);
             extractedImageURL = cloudRes?.url;
         }
 
@@ -172,7 +172,7 @@ const editCommentUnderPost = async (req, res) => {
         if (req.file) {
             const b64 = Buffer.from(req.file.buffer).toString("base64");
             let dataURI = "data:" + req.file.mimetype + ";base64," + b64;
-            const cloudRes = await CLOUDINARY_UPLOAD(dataURI);
+            const cloudRes = await CLOUDINARY_UPLOAD.cloudinaryUpload(dataURI);
             extractedImageURL = cloudRes?.url;
         }
 

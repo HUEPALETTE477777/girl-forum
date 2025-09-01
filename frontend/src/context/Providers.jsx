@@ -4,6 +4,8 @@ import { AuthProvider } from './AuthContext.jsx';
 import { PostProvider } from './PostContext.jsx';
 import { FriendProvider } from './FriendContext.jsx';
 import { CommentProvider } from './CommentContext.jsx';
+import { ReelProvider } from './ReelContext.jsx';
+
 
 const Providers = ({ children }) => {
     return (
@@ -11,7 +13,9 @@ const Providers = ({ children }) => {
             <PostProvider>
                 <FriendProvider>
                     <CommentProvider>
-                        {children}
+                        <ReelProvider>
+                            {children}
+                        </ReelProvider>
                     </CommentProvider>
                 </FriendProvider>
             </PostProvider>

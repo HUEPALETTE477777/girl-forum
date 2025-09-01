@@ -18,6 +18,7 @@ import PostDetail from "../pages/Post/PostDetail"
 import EditPost from "../pages/Post/EditPost";
 import Unauthorized from "../pages/Auth/Unauthorized";
 import UserTargetProfile from "../pages/Auth/UserTargetProfile";
+import Reel from "../pages/Reel/Reel";
 
 const router = createBrowserRouter([
     {
@@ -45,7 +46,8 @@ const router = createBrowserRouter([
                     { path: "/sent", element: <Sent /> },
                     { path: "/search", element: <UserSearch /> },
                     { path: "/posts/:id", element: <PostDetail /> },
-                    { path: "/posts/:id/edit", element: <EditPost /> }, 
+                    { path: "/posts/:id/edit", element: <EditPost /> },
+                    { path: "/reels", element: <Reel /> }, 
                 ]
             }
         ]
