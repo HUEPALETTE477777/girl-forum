@@ -17,7 +17,8 @@ const UserProfile = () => {
                         <p className="text-3xl">USER ID: {user.user_id}</p>
                         <p>Account Creation: {DateFormat(user.createdAt)}</p>
                         <Link to="/profile/update" className="bg-red-400 p-4 text-white">update user</Link>
-                        <Link to="/posts/create"  className="bg-green-400 p-4 text-white">create a post</Link>
+                        <Link to="/posts/create" className="bg-green-400 p-4 text-white">create a post</Link>
+                        <Link to="/reels/create" className="bg-blue-400 p-4 text-white">create a reel</Link>
                         <Link to="/friends"  className="bg-gray-400 p-4">view friends</Link>
                     </div>
                 ) : (

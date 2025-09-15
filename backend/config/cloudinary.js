@@ -28,8 +28,6 @@ const cloudinaryVideoUpload = async (file) => {
     }
 }
 
-
-
 module.exports = {
     cloudinaryUpload,
     cloudinaryVideoUpload,

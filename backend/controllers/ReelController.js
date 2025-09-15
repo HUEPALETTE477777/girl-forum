@@ -12,6 +12,8 @@ const createReel = async (req, res) => {
             return res.status(404).json({ message: "NEED TO PUT IN A CAPTION" })
         }
 
+        console.log(req.file);
+
         let extractedVideoUrl;
         const b64 = Buffer.from(req.file.buffer).toString("base64");
         let dataURI = "data:" + req.file.mimetype + ";base64," + b64;
@@ -26,6 +28,8 @@ const createReel = async (req, res) => {
             hashtags: req.body.hashtags,
         }
 
+        console.log(payload);
+
         const newReel = new Reel(payload);
         await newReel.save();
 
@@ -35,11 +39,28 @@ const createReel = async (req, res) => {
     }
 }
 
-// GET /api/reels/
+// GET /api/reels?page=1&limit=4
 const getAllReels = async (req, res) => {
     try {
-        const reels = await Reel.find({});
-        res.status(200).json({ message: "SUCCESSFULLY RETRIVED ALL REELS", reels: reels });
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 2;
+        const skip = (page - 1) * limit;
+
+        const reels = await Reel.find({})
+            .sort({ createdAt: -1 }) // NEWEST FIRST, DECREASING REEL ID
+            .skip(skip)
+            .limit(limit);
+
+        const total = await Reel.countDocuments();
+        
+         res.status(200).json({
+            message: "SUCCESSFULLY RETRIEVED REELS",
+            reels,
+            total,
+            currentPage: page,
+            totalPages: Math.ceil(total / limit),
+        });
+
     } catch (err) { 
         console.error(err);
     }
