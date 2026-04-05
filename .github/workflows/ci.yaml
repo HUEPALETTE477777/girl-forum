@@ -21,8 +21,8 @@ jobs:
 
     - name: Install dependencies
       run: npm install
-      working-directory: ./backend # Adjust if your package.json is in the root
+      working-directory: ./backend 
 
     - name: Run Jest Tests
-      run: npm test
+      run: npx jest
       working-directory: ./backend
