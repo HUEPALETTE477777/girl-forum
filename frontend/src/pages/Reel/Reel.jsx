@@ -6,7 +6,7 @@ const Reel = () => {
     const { allReels, fetchAllReels, clearReels } = useReel();
     const [loading, setLoading] = useState(true);
     const [hasMore, setHasMore] = useState(true);
-    const observer = useRef();
+    const observer = useRef(); // REF INSTEAD OF STATE FOR NO RE-RENDERS AND A MUTABLE
     const pageRef = useRef(1);
     const isFetchingRef = useRef(false); // SERVES AS A LOCK BEFORE A FETCH REQ COMES THRU
 
@@ -20,6 +20,7 @@ const Reel = () => {
         }
 
         observer.current = new IntersectionObserver(entries => {
+            console.log(entries);
             if (entries[0].isIntersecting && hasMore && !loading) {
                 fetchMoreReels();
             }
